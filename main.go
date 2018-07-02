@@ -14,7 +14,7 @@ var commands = make([]subcommands.Cmd, 0, 5)
 
 func main() {
 	if err := subcommands.Run(commands, os.Args[1:]); err != nil {
-		fmt.Fprint(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, err)
 		usage(os.Stderr)
 		os.Exit(1)
 	}
