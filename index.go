@@ -66,7 +66,6 @@ func indexDir(ix indexer, f string) error {
 		if fi.IsDir() {
 			return nil
 		}
-		log.Printf("Adding %s", p)
 		return ix.AddFile(p)
 	})
 }
