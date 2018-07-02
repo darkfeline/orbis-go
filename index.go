@@ -34,6 +34,7 @@ func indexMain(args []string) error {
 		return err
 	}
 	for _, f := range args {
+		log.Printf("Indexing %s", f)
 		if err := indexFileOrDir(ix, f); err != nil {
 			return errors.Wrapf(err, "indexing %s", f)
 		}
