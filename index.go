@@ -1,12 +1,12 @@
 package main
 
 import (
-	"errors"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/pkg/errors"
 	"go.felesatra.moe/orbis/internal/index"
 	"go.felesatra.moe/subcommands"
 	"go.felesatra.moe/xdg"
@@ -22,6 +22,9 @@ func indexMain(args []string) error {
 		return nil
 	}
 	indexDir, err := findIndexDir(args[0])
+	if err != nil {
+		return errors.Wrap(err, "find index dir")
+	}
 	log.Printf("Found index dir %s", indexDir)
 	if err := os.MkdirAll(filepath.Dir(cachePath), 0777); err != nil {
 		return err
@@ -67,7 +70,7 @@ var cachePath = filepath.Join(xdg.CacheHome(), "orbis", "hashcache.db")
 const indexDirName = "index"
 
 func findIndexDir(p string) (string, error) {
-	for last := p; last == p; last, p = p, filepath.Dir(p) {
+	for last := ""; last != p; last, p = p, filepath.Dir(p) {
 		fi, err := os.Stat(p)
 		if err != nil {
 			return "", err
