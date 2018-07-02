@@ -41,7 +41,11 @@ func indexMain(args []string) error {
 	return nil
 }
 
-func indexFileOrDir(ix *index.Indexer, f string) error {
+type indexer interface {
+	AddFile(string) error
+}
+
+func indexFileOrDir(ix indexer, f string) error {
 	fi, err := os.Stat(f)
 	if err != nil {
 		return err
@@ -53,7 +57,7 @@ func indexFileOrDir(ix *index.Indexer, f string) error {
 	}
 }
 
-func indexDir(ix *index.Indexer, f string) error {
+func indexDir(ix indexer, f string) error {
 	return filepath.Walk(f, func(p string, fi os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -61,7 +65,7 @@ func indexDir(ix *index.Indexer, f string) error {
 		if fi.IsDir() {
 			return nil
 		}
-		return ix.AddFile(f)
+		return ix.AddFile(p)
 	})
 }
 
