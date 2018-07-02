@@ -23,7 +23,7 @@ func indexMain(args []string) error {
 	}
 	indexDir, err := findIndexDir(args[0])
 	if err != nil {
-		return errors.Wrap(err, "find index dir")
+		return errors.Wrap(err, "finding index dir")
 	}
 	log.Printf("Found index dir %s", indexDir)
 	if err := os.MkdirAll(filepath.Dir(cachePath), 0777); err != nil {
@@ -35,7 +35,7 @@ func indexMain(args []string) error {
 	}
 	for _, f := range args {
 		if err := indexFileOrDir(ix, f); err != nil {
-			return errors.Wrapf(err, "index %s", f)
+			return errors.Wrapf(err, "indexing %s", f)
 		}
 	}
 	return nil
