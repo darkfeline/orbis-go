@@ -35,7 +35,7 @@ func indexMain(args []string) error {
 	}
 	for _, f := range args {
 		if err := indexFileOrDir(ix, f); err != nil {
-			return err
+			return errors.Wrapf(err, "index %s", f)
 		}
 	}
 	return nil

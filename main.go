@@ -30,7 +30,7 @@ func usage(w io.Writer) {
 func errCmd(f func([]string) error) func([]string) {
 	return func(args []string) {
 		if err := f(args); err != nil {
-			log.Fatalf("%+v", err)
+			log.Fatalf("Error: %+v", err)
 		}
 	}
 }
