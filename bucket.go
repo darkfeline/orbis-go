@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -36,6 +37,7 @@ func bucketMain(args []string) error {
 	for _, f := range files {
 		for _, b := range buckets {
 			if strings.Contains(f, b) {
+				log.Printf("Moving %s into %s", f, b)
 				os.Rename(f, filepath.Join(rootDir, b, filepath.Base(f)))
 				break
 			}
@@ -51,6 +53,12 @@ func getBuckets(p string) ([]string, error) {
 	}
 	var fs []string
 	for _, fi := range fis {
+		if fi.Mode()&os.ModeSymlink != 0 {
+			fi, err = os.Stat(filepath.Join(p, fi.Name()))
+			if err != nil {
+				log.Printf("get buckets: skipping symlink %s: %s", fi.Name(), err)
+			}
+		}
 		if fi.IsDir() {
 			fs = append(fs, fi.Name())
 		}
