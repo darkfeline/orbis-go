@@ -65,7 +65,7 @@ func unbucketedFiles(p string) ([]string, error) {
 	}
 	var fs []string
 	for _, fi := range fis {
-		if fi.Mode()|os.ModeType == 0 {
+		if fi.Mode().IsRegular() {
 			fs = append(fs, fi.Name())
 		}
 	}
