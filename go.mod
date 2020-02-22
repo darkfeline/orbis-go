@@ -6,3 +6,5 @@ require (
 	go.felesatra.moe/subcommands v0.0.0-20180625010928-e0b863fb3a7e
 	go.felesatra.moe/xdg v0.0.0-20180609034518-93689817508c
 )
+
+go 1.13
